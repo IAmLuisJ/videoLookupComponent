@@ -6,7 +6,7 @@ import VideoDetail from "./VideoDetail";
 import VideoQueue from "./VideoQueue";
 
 class App extends React.Component {
-  state = { results: [], selectedVideo: null };
+  state = { results: [], selectedVideo: null, queue: [] };
 
   onTermSubmit = async (term) => {
     const response = await youtube.get("/search", {
@@ -17,12 +17,18 @@ class App extends React.Component {
     this.setState({
       results: response.data.items,
       selectedVideo: response.data.items[0],
+      queue: [],
     });
   };
 
   onVideoSelect = (video) => {
     console.log("from the app", video);
     this.setState({ selectedVideo: video });
+  };
+
+  onAddToQueue = (video) => {
+    console.log(video);
+    this.setState({ queue: [...this.state.queue, video] });
   };
 
   render() {
@@ -34,7 +40,11 @@ class App extends React.Component {
           <div className="ui row">
             <div className="eleven wide column">
               <VideoDetail video={this.state.selectedVideo} />
-              <VideoQueue />
+              <VideoQueue
+                list={this.state.queue}
+                onAddToQueue={this.onAddToQueue}
+                selectedVideo={this.state.selectedVideo}
+              />
             </div>
             <div className="five wide column">
               <VideoList
