@@ -9,10 +9,17 @@ const VideoQueue = (props) => {
       <button onClick={() => props.onAddToQueue(props.selectedVideo)}>
         Add Video to Queue
       </button>
+      <button>Play Queue</button>
       <h1>Video Queue</h1>
       {props.list
         ? props.list.map((video) => {
-            return <p>Video Saved</p>;
+            return (
+              <VideoItem
+                video={video}
+                key={video.etag}
+                onVideoSelect={props.onVideoSelect}
+              />
+            );
           })
         : null}
     </div>

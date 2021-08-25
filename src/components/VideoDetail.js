@@ -6,7 +6,7 @@ const VideoDetail = (props) => {
   }
 
   let videoLink = "https://www.youtube.com/embed/";
-  let videoParams = "?autoplay=1";
+  let videoParams = "?autoplay=0";
   videoLink = videoLink + props.video.id.videoId + videoParams;
 
   console.log("link", videoLink);
