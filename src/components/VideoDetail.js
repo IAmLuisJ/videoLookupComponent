@@ -2,7 +2,7 @@ import React from "react";
 
 const VideoDetail = (props) => {
   if (!props.video) {
-    return <div>Loading...</div>;
+    return <div className="ui segment">Welcome to Video Hour!</div>;
   }
 
   let videoLink = "https://www.youtube.com/embed/";
