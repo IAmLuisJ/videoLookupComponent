@@ -6,7 +6,7 @@ import VideoDetail from "./VideoDetail";
 import VideoQueue from "./VideoQueue";
 
 class App extends React.Component {
-  state = { results: [], selectedVideo: null, queue: [] };
+  state = { results: [], selectedVideo: null, queue: [], timer: null };
 
   onTermSubmit = async (term) => {
     const response = await youtube.get("/search", {
@@ -18,6 +18,18 @@ class App extends React.Component {
       results: response.data.items,
       selectedVideo: response.data.items[0],
     });
+  };
+
+  onPlayQueue = () => {
+    const timer = setTimeout(() => {
+      console.log("playing video");
+    }, 1000);
+    this.setState({ timer: timer });
+  };
+
+  onPauseQueue = () => {
+    console.log("pausing queue");
+    clearTimeout(this.state.timer);
   };
 
   onVideoSelect = (video) => {
@@ -44,6 +56,8 @@ class App extends React.Component {
                 onAddToQueue={this.onAddToQueue}
                 selectedVideo={this.state.selectedVideo}
                 onVideoSelect={this.onVideoSelect}
+                onPlayQueue={this.onPlayQueue}
+                onPauseQueue={this.onPauseQueue}
               />
             </div>
             <div className="five wide column">
