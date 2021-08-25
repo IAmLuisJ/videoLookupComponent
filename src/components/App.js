@@ -44,6 +44,7 @@ class App extends React.Component {
                 list={this.state.queue}
                 onAddToQueue={this.onAddToQueue}
                 selectedVideo={this.state.selectedVideo}
+                onVideoSelect={this.onVideoSelect}
               />
             </div>
             <div className="five wide column">
