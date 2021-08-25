@@ -17,7 +17,6 @@ class App extends React.Component {
     this.setState({
       results: response.data.items,
       selectedVideo: response.data.items[0],
-      queue: [],
     });
   };
 
