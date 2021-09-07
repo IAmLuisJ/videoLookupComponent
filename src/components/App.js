@@ -21,15 +21,15 @@ class App extends React.Component {
   };
 
   onPlayQueue = () => {
-    const timer = setTimeout(() => {
+    const timer = setInterval(() => {
       console.log("playing video");
-    }, 1000);
+    }, 60000);
     this.setState({ timer: timer });
   };
 
   onPauseQueue = () => {
     console.log("pausing queue");
-    clearTimeout(this.state.timer);
+    clearInterval(this.state.timer);
   };
 
   onVideoSelect = (video) => {
