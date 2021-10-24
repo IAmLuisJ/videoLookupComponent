@@ -5,6 +5,7 @@ const VideoQueue = (props) => {
   return (
     <div>
       <button
+        disabled={props.selectedVideo == null ? true : false}
         className="ui primary button"
         onClick={() => props.onAddToQueue(props.selectedVideo)}
       >
