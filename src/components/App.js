@@ -13,11 +13,22 @@ class App extends React.Component {
       params: {
         q: term,
       },
+    }).catch(function (error) {
+      if(error.response) {
+        console.log(error.response.data);
+        console.log(error.response.status);
+        console.log(error.response.headers);
+      } else if(error.request) {
+        console.log(error.request);
+      } else {
+        console.log('Error', error.message);
+      }
     });
     this.setState({
       results: response.data.items,
       selectedVideo: response.data.items[0],
     });
+    console.log('response');
   };
 
   onPlayQueue = () => {
