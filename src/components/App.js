@@ -23,6 +23,7 @@ class App extends React.Component {
       } else {
         console.log('Error', error.message);
       }
+      console.log(error.config);
     });
     this.setState({
       results: response.data.items,
