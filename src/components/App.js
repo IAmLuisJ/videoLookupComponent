@@ -1,76 +1,80 @@
-import React from "react";
+import React, {useState} from "react";
 import SearchBar from "./SearchBar";
 import youtube from "../apis/youtube";
 import VideoList from "./VideoList";
 import VideoDetail from "./VideoDetail";
 import VideoQueue from "./VideoQueue";
 
-class App extends React.Component {
-  state = { results: [], selectedVideo: null, queue: [], timer: null };
+const App = ()=> {
+  const [results, setResults] = useState([]);
+  const [selectedVideo, setSelectedVideo] = useState();
+  const [queue, setQueue] = useState([]);
+  const [timer, setTimer] = useState();
 
-  onTermSubmit = async (term) => {
+  const onTermSubmit = async (term) => {
     const response = await youtube.get("/search", {
       params: {
         q: term,
       }
-    })
-    this.setState({
-      results: response.data.items,
-      selectedVideo: response.data.items[0],
     });
+
+    setResults(response.data.items);
+    setSelectedVideo(response.data.items[0]);
   };
 
-  onPlayQueue = () => {
+  const onPlayQueue = () => {
     const timer = setInterval(() => {
       console.log("playing video");
     }, 60000);
-    this.setState({ timer: timer });
+    setTimer(timer);
+
   };
 
-  onPauseQueue = () => {
+  const onPauseQueue = () => {
     console.log("pausing queue");
-    clearInterval(this.state.timer);
+    clearInterval(timer);
   };
 
-  onVideoSelect = (video) => {
+  const onVideoSelect = (video) => {
     console.log("from the app", video);
-    this.setState({ selectedVideo: video });
+   selectedVideo(video);
   };
 
-  onAddToQueue = (video) => {
+  const onAddToQueue = (video) => {
     console.log(video);
-    this.setState({ queue: [...this.state.queue, video] });
+    setQueue(queue => [...queue, video]);
   };
 
-  render() {
-    return (
-      <div className="ui container">
-        <SearchBar onFormSubmit={this.onTermSubmit} />
-        Search results: {this.state.results.length} videos found.
-        <div className="ui grid">
-          <div className="ui row">
-            <div className="eleven wide column">
-              <VideoDetail video={this.state.selectedVideo} />
-              <VideoQueue
-                list={this.state.queue}
-                onAddToQueue={this.onAddToQueue}
-                selectedVideo={this.state.selectedVideo}
-                onVideoSelect={this.onVideoSelect}
-                onPlayQueue={this.onPlayQueue}
-                onPauseQueue={this.onPauseQueue}
-              />
-            </div>
-            <div className="five wide column">
-              <VideoList
-                videos={this.state.results}
-                onVideoSelect={this.onVideoSelect}
-              />
-            </div>
+
+  return (
+    <div className="ui container">
+      <SearchBar onFormSubmit={onTermSubmit} />
+      Search results: {results.length} videos found.
+      <div className="ui grid">
+        <div className="ui row">
+          <div className="eleven wide column">
+            <VideoDetail video={selectedVideo} />
+            <VideoQueue
+              list={queue}
+              onAddToQueue={onAddToQueue}
+              selectedVideo={selectedVideo}
+              onVideoSelect={onVideoSelect}
+              onPlayQueue={onPlayQueue}
+              onPauseQueue={onPauseQueue}
+            />
+          </div>
+          <div className="five wide column">
+            <VideoList
+              videos={results}
+              onVideoSelect={onVideoSelect}
+            />
           </div>
         </div>
       </div>
-    );
-  }
+    </div>
+  );
 }
+
+
 
 export default App;
