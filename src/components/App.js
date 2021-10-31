@@ -12,24 +12,12 @@ class App extends React.Component {
     const response = await youtube.get("/search", {
       params: {
         q: term,
-      },
-    }).catch(function (error) {
-      if(error.response) {
-        console.log(error.response.data);
-        console.log(error.response.status);
-        console.log(error.response.headers);
-      } else if(error.request) {
-        console.log(error.request);
-      } else {
-        console.log('Error', error.message);
       }
-      console.log(error.config);
-    });
+    })
     this.setState({
       results: response.data.items,
       selectedVideo: response.data.items[0],
     });
-    console.log('response');
   };
 
   onPlayQueue = () => {
