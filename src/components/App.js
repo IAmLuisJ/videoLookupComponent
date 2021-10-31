@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, {useState, useEffect} from "react";
 import SearchBar from "./SearchBar";
 import youtube from "../apis/youtube";
 import VideoList from "./VideoList";
@@ -10,6 +10,10 @@ const App = ()=> {
   const [selectedVideo, setSelectedVideo] = useState();
   const [queue, setQueue] = useState([]);
   const [timer, setTimer] = useState();
+
+  useEffect(()=> {
+    onTermSubmit('dance');
+  }, [])
 
   const onTermSubmit = async (term) => {
     const response = await youtube.get("/search", {
@@ -27,7 +31,6 @@ const App = ()=> {
       console.log("playing video");
     }, 60000);
     setTimer(timer);
-
   };
 
   const onPauseQueue = () => {
@@ -37,7 +40,7 @@ const App = ()=> {
 
   const onVideoSelect = (video) => {
     console.log("from the app", video);
-   selectedVideo(video);
+   setSelectedVideo(video);
   };
 
   const onAddToQueue = (video) => {
@@ -74,7 +77,5 @@ const App = ()=> {
     </div>
   );
 }
-
-
 
 export default App;
