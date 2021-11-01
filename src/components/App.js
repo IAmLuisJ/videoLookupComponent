@@ -1,19 +1,15 @@
-import React, {useState, useEffect} from "react";
+import React, {useState} from "react";
 import SearchBar from "./SearchBar";
 import youtube from "../apis/youtube";
 import VideoList from "./VideoList";
 import VideoDetail from "./VideoDetail";
 import VideoQueue from "./VideoQueue";
 
-const App = ()=> {
+const App = () => {
   const [results, setResults] = useState([]);
   const [selectedVideo, setSelectedVideo] = useState();
   const [queue, setQueue] = useState([]);
   const [timer, setTimer] = useState();
-
-  useEffect(()=> {
-    onTermSubmit('dance');
-  }, [])
 
   const onTermSubmit = async (term) => {
     const response = await youtube.get("/search", {
@@ -21,7 +17,8 @@ const App = ()=> {
         q: term,
       }
     });
-
+    console.log("response requested");
+    console.log("test")
     setResults(response.data.items);
     setSelectedVideo(response.data.items[0]);
   };
